@@ -32,6 +32,7 @@ import playerImg from '../assets/sprites/player.png'
 import playerLeftImg from '../assets/sprites/playerLeft.png'
 import playerRightImg from '../assets/sprites/playerRight.png'
 import playerLaserImg from '../assets/sprites/laserGreen.png'
+import enemyShipImg from '../assets/sprites/enemyShip.png'
 
 // creating a class for the laser to use
 class Laser extends Phaser.Physics.Arcade.Sprite {
@@ -45,7 +46,7 @@ class Laser extends Phaser.Physics.Arcade.Sprite {
     this.setActive(true)
     this.setVisible(true)
 
-    this.setVelocityY(-900)
+    this.setVelocityY(-600)
   }
 
   preUpdate (time, delta) {
@@ -65,7 +66,7 @@ class PlayerLaserGroup extends Phaser.Physics.Arcade.Group {
 
     this.createMultiple({
       classType: Laser,
-      frameQuantity: 30,
+      frameQuantity: 3,
       active: false,
       visible: false,
       key: 'playerLaser'
@@ -78,6 +79,43 @@ class PlayerLaserGroup extends Phaser.Physics.Arcade.Group {
     if (laser) {
       laser.fire(x, y)
     }
+  }
+}
+
+// Base class for the enemy ships
+class EnemyShip extends Phaser.Physics.Arcade.Image {
+  constructor (scene, x, y) {
+    super(scene, x, y, 'enemyShip')
+  }
+}
+
+// class for the group of enemy ships
+class EnemyShipGroup extends Phaser.Physics.Arcade.Group {
+  constructor (scene, x, y) {
+    super(scene.physics.world, scene)
+
+    this.x = x
+    this.y = y
+
+    this.createMultiple({
+      classType: EnemyShip,
+      frameQuantity: 40,
+      active: true,
+      visible: true,
+      key: 'enemyShip',
+      setScale: {
+        x: 0.5,
+        y: 0.5
+      },
+      gridAlign: {
+        width: 10,
+        height: 4,
+        cellWidth: 60,
+        cellHeight: 40,
+        x: x,
+        y: y
+      }
+    })
   }
 }
 
@@ -95,6 +133,7 @@ class GameScene extends Phaser.Scene {
     this.load.image('playerLeft', playerLeftImg)
     this.load.image('playerRight', playerRightImg)
     this.load.image('playerLaser', playerLaserImg)
+    this.load.image('enemyShip', enemyShipImg)
   }
 
   // used to make the playable character
@@ -111,11 +150,21 @@ class GameScene extends Phaser.Scene {
 
   // used to create the game itself
   create () {
+    // variables
+    this.enemyMovingRight = true
+    this.enemyMovingDown = false
+    this.enemyMoveSpeed = 25
+    this.enemyDownDistance = 40
+    this.enemyDownSteps = 0
+
     // set the background colour
     this.cameras.main.setBackgroundColor('#24252A')
 
     // make a laser group
     this.playerLaserGroup = new PlayerLaserGroup(this)
+
+    // make an enemy group
+    this.enemyShipGroup = new EnemyShipGroup(this, this.sys.canvas.width / 10, this.sys.canvas.height / 8)
 
     // make the player object
     this.makePlayer(this.sys.canvas.width / 2, this.sys.canvas.height - 5)
@@ -132,7 +181,7 @@ class GameScene extends Phaser.Scene {
   // update() is called once every frame
   update () {
     /*
-    *     Player Movement
+    *   Player Movement
     */
     // if the user is pressing the 'right' key and the player is within the screen
     if (this.rightKey.isDown && this.player.x < this.sys.canvas.width - this.player.displayWidth * this.player.originX) {
@@ -153,6 +202,33 @@ class GameScene extends Phaser.Scene {
     */
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
       this.shootLaser()
+    }
+
+    /*
+    *   Enemy Movement
+    */
+    // if the enemy is moving right and is still on the screen
+    if (this.enemyMovingRight && this.enemyShipGroup.getChildren()[39].x < this.sys.canvas.width - this.enemyShipGroup.getChildren()[39].displayWidth * this.enemyShipGroup.getChildren()[39].originX) {
+      this.enemyShipGroup.setVelocityX(this.enemyMoveSpeed)
+    // if the enemy is moving left and is still on the screen
+    } else if (!this.enemyMovingRight && this.enemyShipGroup.getChildren()[0].x > 0 + this.enemyShipGroup.getChildren()[0].displayWidth * this.enemyShipGroup.getChildren()[0].originX) {
+      this.enemyShipGroup.setVelocityX(-this.enemyMoveSpeed)
+    } else {
+      this.enemyMovingDown = true
+      this.enemyShipGroup.setVelocityX(0)
+    }
+
+    // if the enemy is set to move down
+    if (this.enemyMovingDown) {
+      this.enemyShipGroup.incY(this.enemyDownDistance)
+      this.enemyDownSteps += 1
+      this.enemyMovingDown = false
+      this.enemyMovingRight = !this.enemyMovingRight
+    }
+
+    // if the enemy has completed enough down steps
+    if (this.enemyDownSteps === 7) {
+      this.enemyShipGroup.setVelocityX(0)
     }
   }
 }
