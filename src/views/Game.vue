@@ -66,7 +66,7 @@ class PlayerLaserGroup extends Phaser.Physics.Arcade.Group {
 
     this.createMultiple({
       classType: Laser,
-      frameQuantity: 3,
+      frameQuantity: 1,
       active: false,
       visible: false,
       key: 'playerLaser'
@@ -83,7 +83,7 @@ class PlayerLaserGroup extends Phaser.Physics.Arcade.Group {
 }
 
 // Base class for the enemy ships
-class EnemyShip extends Phaser.Physics.Arcade.Image {
+class EnemyShip extends Phaser.Physics.Arcade.Sprite {
   constructor (scene, x, y) {
     super(scene, x, y, 'enemyShip')
   }
@@ -148,6 +148,18 @@ class GameScene extends Phaser.Scene {
     this.player.properties.maxLasers = 1
   }
 
+  // used whenever an enemy ship is hit by a laser
+  enemyHit (laser, enemy) {
+    if (enemy.active) {
+      laser.setVelocityY(0)
+      laser.body.reset(0, 0)
+      laser.setActive(false)
+      laser.setVisible(false)
+      enemy.setActive(false)
+      enemy.setVisible(false)
+    }
+  }
+
   // used to create the game itself
   create () {
     // variables
@@ -176,6 +188,9 @@ class GameScene extends Phaser.Scene {
     this.leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
     this.rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+
+    // add overlap (coillision) detection between sprites
+    this.physics.add.overlap(this.playerLaserGroup, this.enemyShipGroup, this.enemyHit, null, this)
   }
 
   // update() is called once every frame
