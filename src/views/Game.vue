@@ -33,6 +33,7 @@ import playerLeftImg from '../assets/sprites/playerLeft.png'
 import playerRightImg from '../assets/sprites/playerRight.png'
 import playerLaserImg from '../assets/sprites/laserGreen.png'
 import enemyShipImg from '../assets/sprites/enemyShip.png'
+import backgroundImg from '../assets/sprites/starBackground.png'
 
 // creating a class for the laser to use
 class Laser extends Phaser.Physics.Arcade.Sprite {
@@ -134,6 +135,7 @@ class GameScene extends Phaser.Scene {
     this.load.image('playerRight', playerRightImg)
     this.load.image('playerLaser', playerLaserImg)
     this.load.image('enemyShip', enemyShipImg)
+    this.load.image('background', backgroundImg)
   }
 
   // used to make the playable character
@@ -178,10 +180,12 @@ class GameScene extends Phaser.Scene {
     this.enemyDownSteps = 0
 
     this.score = 0
-    this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' })
 
-    // set the background colour
-    this.cameras.main.setBackgroundColor('#24252A')
+    // set the background
+    this.add.tileSprite(400, 300, 800, 600, 'background')
+
+    // create the score text
+    this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFF' })
 
     // make a laser group
     this.playerLaserGroup = new PlayerLaserGroup(this)
