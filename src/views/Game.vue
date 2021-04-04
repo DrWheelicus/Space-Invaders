@@ -150,11 +150,19 @@ class GameScene extends Phaser.Scene {
 
   // used whenever an enemy ship is hit by a laser
   enemyHit (laser, enemy) {
+    // if the enemy that is hit is an active enemy
     if (enemy.active) {
+      // increase the score by 10
+      this.score += 10
+      this.scoreText.setText('Score: ' + this.score)
+
+      // reset the laser
       laser.setVelocityY(0)
       laser.body.reset(0, 0)
       laser.setActive(false)
       laser.setVisible(false)
+
+      // disable the enemy
       enemy.setActive(false)
       enemy.setVisible(false)
     }
@@ -168,6 +176,9 @@ class GameScene extends Phaser.Scene {
     this.enemyMoveSpeed = 25
     this.enemyDownDistance = 40
     this.enemyDownSteps = 0
+
+    this.score = 0
+    this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' })
 
     // set the background colour
     this.cameras.main.setBackgroundColor('#24252A')
