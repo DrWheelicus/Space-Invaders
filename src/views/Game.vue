@@ -34,6 +34,7 @@ import playerRightImg from '../assets/sprites/playerRight.png'
 import playerLaserImg from '../assets/sprites/laserGreen.png'
 import enemyShipImg from '../assets/sprites/enemyShip.png'
 import backgroundImg from '../assets/sprites/starBackground.png'
+import explosionSheet from '../assets/sprites/explosion.png'
 
 // creating a class for the laser to use
 class Laser extends Phaser.Physics.Arcade.Sprite {
@@ -87,6 +88,27 @@ class PlayerLaserGroup extends Phaser.Physics.Arcade.Group {
 class EnemyShip extends Phaser.Physics.Arcade.Sprite {
   constructor (scene, x, y) {
     super(scene, x, y, 'enemyShip')
+
+    this.isDead = false
+
+    this.anims.create({
+      key: 'explosion',
+      frames: this.anims.generateFrameNumbers('explosionSheet', { frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] }),
+      frameRate: 20,
+      repeat: 0,
+      hideOnComplete: true
+    })
+  }
+
+  // called when the enemy ship is to play its death animation
+  deathAnimation () {
+    // play the explosion animation
+    this.play('explosion')
+
+    // set the enemy ship to be inactive when the animation is finished playing
+    this.on('animationcomplete', function () {
+      this.setActive(false)
+    })
   }
 }
 
@@ -136,6 +158,7 @@ class GameScene extends Phaser.Scene {
     this.load.image('playerLaser', playerLaserImg)
     this.load.image('enemyShip', enemyShipImg)
     this.load.image('background', backgroundImg)
+    this.load.spritesheet('explosionSheet', explosionSheet, { frameWidth: 128, frameHeight: 128 })
   }
 
   // used to make the playable character
@@ -152,8 +175,11 @@ class GameScene extends Phaser.Scene {
 
   // used whenever an enemy ship is hit by a laser
   enemyHit (laser, enemy) {
-    // if the enemy that is hit is an active enemy
-    if (enemy.active) {
+    // if the enemy that is hit is not already dead (ie. not playing it's death animation or set to be inactive)
+    if (!enemy.isDead) {
+      // play the death animation
+      enemy.deathAnimation()
+
       // increase the score by 10
       this.score += 10
       this.scoreText.setText('Score: ' + this.score)
@@ -164,9 +190,8 @@ class GameScene extends Phaser.Scene {
       laser.setActive(false)
       laser.setVisible(false)
 
-      // disable the enemy
-      enemy.setActive(false)
-      enemy.setVisible(false)
+      // set the enemy to be considered dead
+      enemy.isDead = true
     }
   }
 
