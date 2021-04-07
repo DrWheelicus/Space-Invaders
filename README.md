@@ -1,3 +1,6 @@
+## Independent Study
+The Google Slides for our independent study can be found here: https://docs.google.com/presentation/d/1F2jgeNOSNpMuPdQAVZFLrEI8Z6HefYkpNX34PvFyoPw/edit?usp=sharing
+
 # Major Group Project
 
 Before you submit your project, modify the following table to include everyone's full name and GitHub usernames:
