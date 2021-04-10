@@ -68,7 +68,7 @@ class PlayerLaserGroup extends Phaser.Physics.Arcade.Group {
 
     this.createMultiple({
       classType: Laser,
-      frameQuantity: 1,
+      frameQuantity: 1, // This variable controls how many lasers the player is able to shoot at a time
       active: false,
       visible: false,
       key: 'playerLaser'
@@ -198,13 +198,16 @@ class GameScene extends Phaser.Scene {
   // used to create the game itself
   create () {
     // variables
-    this.enemyMovingRight = true
-    this.enemyMovingDown = false
-    this.enemyMoveSpeed = 25
-    this.enemyDownDistance = 40
-    this.enemyDownSteps = 0
+    this.enemyMovingRight = true // is the enemy moving right
+    this.enemyMovingDown = false // is the enemy set to move down
+    this.enemyMoveSpeed = 25 // controls the speed at which the enemy ships move
+    this.enemySpeedIncrement = 5 // controls how much the enemy ships' speed increases on a new wave
+    this.enemyDownDistance = 40 // controls how far down the enemy moves
+    this.enemyDownSteps = 0 // used to count how many times the enemy group has moved down
+    this.enemySpawnX = this.sys.canvas.width / 10 // the X value of where to spawn the enemy ships
+    this.enemySpawnY = this.sys.canvas.height / 8 // the Y value of where to spawn the enemy ships
 
-    this.score = 0
+    this.score = 0 // used to keep track of the player's score
 
     // set the background
     this.add.tileSprite(400, 300, 800, 600, 'background')
@@ -216,7 +219,7 @@ class GameScene extends Phaser.Scene {
     this.playerLaserGroup = new PlayerLaserGroup(this)
 
     // make an enemy group
-    this.enemyShipGroup = new EnemyShipGroup(this, this.sys.canvas.width / 10, this.sys.canvas.height / 8)
+    this.enemyShipGroup = new EnemyShipGroup(this, this.enemySpawnX, this.enemySpawnY)
 
     // make the player object
     this.makePlayer(this.sys.canvas.width / 2, this.sys.canvas.height - 5)
@@ -284,6 +287,38 @@ class GameScene extends Phaser.Scene {
     // if the enemy has completed enough down steps
     if (this.enemyDownSteps === 7) {
       this.enemyShipGroup.setVelocityX(0)
+    }
+
+    /*
+    *   Enemy checking
+    */
+    // if there are no ships alive in the ship group
+    if (this.enemyShipGroup.getFirstAlive() == null) {
+      // reset the down counter and increase the move speed
+      this.enemyDownSteps = 0
+      this.enemyMoveSpeed += this.enemySpeedIncrement
+
+      // clear all children from the ship group, and spawn a new set of children
+      this.enemyShipGroup.clear(true, true)
+      this.enemyShipGroup.createMultiple({
+        classType: EnemyShip,
+        frameQuantity: 40,
+        active: true,
+        visible: true,
+        key: 'enemyShip',
+        setScale: {
+          x: 0.5,
+          y: 0.5
+        },
+        gridAlign: {
+          width: 10,
+          height: 4,
+          cellWidth: 60,
+          cellHeight: 40,
+          x: this.enemySpawnX,
+          y: this.enemySpawnY
+        }
+      })
     }
   }
 }
