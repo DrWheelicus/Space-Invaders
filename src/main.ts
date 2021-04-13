@@ -14,6 +14,8 @@ import { faPlayCircle, faArrowsAltH, faSortDown, faHome, faTable } from '@fortaw
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // @ts-ignore
 import VueParticlesBg from "particles-bg-vue";
+import { ButtonPlugin } from '@syncfusion/ej2-vue-buttons';
+import { enableRipple } from '@syncfusion/ej2-base';
 /* eslint-enable */
 
 library.add(faPlayCircle, faArrowsAltH, faSortDown, faHome, faTable)
@@ -21,6 +23,8 @@ library.add(faPlayCircle, faArrowsAltH, faSortDown, faHome, faTable)
 Vue.use(VueKinesis)
 Vue.use(VueSidebarMenu)
 Vue.use(VueParticlesBg)
+Vue.use(ButtonPlugin);
+enableRipple(true);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
