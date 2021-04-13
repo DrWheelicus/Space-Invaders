@@ -7,9 +7,22 @@ import App from './App.vue'
 import router from './router'
 // @ts-ignore
 import VueKinesis from 'vue-kinesis';
+import VueSidebarMenu from 'vue-sidebar-menu'
+import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPlayCircle, faArrowsAltH, faSortDown, faHome, faTable } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+// @ts-ignore
+import VueParticlesBg from "particles-bg-vue";
 /* eslint-enable */
 
+library.add(faPlayCircle, faArrowsAltH, faSortDown, faHome, faTable)
+
 Vue.use(VueKinesis)
+Vue.use(VueSidebarMenu)
+Vue.use(VueParticlesBg)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
 Vue.config.ignoredElements = [/ion-\w*/]

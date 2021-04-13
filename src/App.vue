@@ -1,33 +1,66 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/game">Game</router-link>
-    </div>
-    <router-view/>
+    <sidebar-menu :menu="menu" :collapsed="collapsed">
+      <span slot="toggle-icon"><font-awesome-icon icon="arrows-alt-h"/></span>
+      <span slot="dropdown-icon"><font-awesome-icon icon="sort-down"/></span>
+    </sidebar-menu>
+    <router-view />
   </div>
 </template>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Space Mono', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
+</style>
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+export default {
+  data () {
+    return {
+      menu: [
+        {
+          href: '/',
+          title: 'Home Page',
+          icon: {
+            element: 'font-awesome-icon',
+            attributes: {
+              // icon props:
+              icon: 'home'
+            }
+          }
+        },
+        {
+          href: '/game',
+          title: 'Play Game',
+          icon: {
+            element: 'font-awesome-icon',
+            attributes: {
+              // icon props:
+              icon: 'play-circle'
+            }
+          }
+        },
+        {
+          href: '/scores',
+          title: 'High Scores',
+          icon: {
+            element: 'font-awesome-icon',
+            attributes: {
+              // icon props:
+              icon: 'table'
+            }
+          }
+        }
+      ],
+      collapsed: true
     }
   }
 }
-</style>
+</script>
