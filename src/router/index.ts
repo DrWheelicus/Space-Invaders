@@ -1,6 +1,10 @@
+/* eslint-disable */
+// @ts-ignore
 import Vue from 'vue'
+// @ts-ignore
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
+/* eslint-enable */
 
 Vue.use(VueRouter)
 
