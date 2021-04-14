@@ -10,7 +10,7 @@
         />
       </kinesis-element>
     </kinesis-container>
-    <ejs-button cssClass='e-info' v-on:click.native='btnPlay'>Play</ejs-button>
+    <ejs-button cssClass='e-info' v-on:click.native='btnPlay'><font-awesome-icon icon="gamepad" />[Play]</ejs-button>
     <h1>About</h1>
     <p>This is a modern take on the very classic Space Invaders. The main objective of the game is to defend your home planet from the oncoming waves of enemy ships. The player can control their ship by using the arrow keys to move, and the space key to shoot. Upon defeating an entire wave of enemy ships, a new wave will spawn, which moves at increasingly faster speeds. The game is endless, and your main goal as the player is to achieve the highest score possible!</p>
   </div>
@@ -36,6 +36,7 @@ p {
   margin: 25px 5px 20px 20px;
   font-family: 'Press Start 2P', cursive;
 }
+
 </style>
 
 <script lang="ts">

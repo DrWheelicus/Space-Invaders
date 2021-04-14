@@ -10,7 +10,7 @@ import VueKinesis from 'vue-kinesis';
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlayCircle, faArrowsAltH, faSortDown, faHome, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faPlayCircle, faArrowsAltH, faSortDown, faHome, faTable, faGamepad } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // @ts-ignore
 import VueParticlesBg from "particles-bg-vue";
@@ -18,7 +18,7 @@ import { ButtonPlugin } from '@syncfusion/ej2-vue-buttons';
 import { enableRipple } from '@syncfusion/ej2-base';
 /* eslint-enable */
 
-library.add(faPlayCircle, faArrowsAltH, faSortDown, faHome, faTable)
+library.add(faPlayCircle, faArrowsAltH, faSortDown, faHome, faTable, faGamepad)
 
 Vue.use(VueKinesis)
 Vue.use(VueSidebarMenu)
