@@ -23,8 +23,8 @@ library.add(faPlayCircle, faArrowsAltH, faSortDown, faHome, faTable)
 Vue.use(VueKinesis)
 Vue.use(VueSidebarMenu)
 Vue.use(VueParticlesBg)
-Vue.use(ButtonPlugin);
-enableRipple(true);
+Vue.use(ButtonPlugin)
+enableRipple(true)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
