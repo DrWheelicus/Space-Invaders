@@ -34,6 +34,7 @@ p {
 
 .e-btn {
   margin: 25px 5px 20px 20px;
+  font-family: 'Press Start 2P', cursive;
 }
 </style>
 
