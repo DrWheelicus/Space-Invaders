@@ -10,7 +10,7 @@
         />
       </kinesis-element>
     </kinesis-container>
-    <ejs-button cssClass='e-info'>Play</ejs-button>
+    <ejs-button cssClass='e-info' v-on:click.native='btnPlay'>Play</ejs-button>
     <h1>About</h1>
     <p>This is a modern take on the very classic Space Invaders. The main objective of the game is to defend your home planet from the oncoming waves of enemy ships. The player can control their ship by using the arrow keys to move, and the space key to shoot. Upon defeating an entire wave of enemy ships, a new wave will spawn, which moves at increasingly faster speeds. The game is endless, and your main goal as the player is to achieve the highest score possible!</p>
   </div>
@@ -39,6 +39,13 @@ p {
 
 <script lang="ts">
 import { Vue } from 'vue-property-decorator'
+import { ButtonPlugin } from '@syncfusion/ej2-vue-buttons'
 
-export default class Home extends Vue {}
+Vue.use(ButtonPlugin)
+
+export default class Home extends Vue {
+  btnPlay () {
+    super.$router.push('game')
+  }
+}
 </script>

@@ -4,6 +4,8 @@ import Vue from 'vue'
 // @ts-ignore
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
+import Scores from '../views/Scores.vue'
+import Game from '../views/Game.vue'
 /* eslint-enable */
 
 Vue.use(VueRouter)
@@ -17,12 +19,12 @@ const routes: Array<RouteConfig> = [
   {
     path: '/scores',
     name: 'Scores',
-    component: () => import('../views/Scores.vue')
+    component: Scores
   },
   {
     path: '/game',
     name: 'Game',
-    component: () => import('../views/Game.vue')
+    component: Game
   }
 ]
 
