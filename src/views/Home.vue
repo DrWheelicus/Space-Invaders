@@ -12,7 +12,7 @@
     </kinesis-container>
     <ejs-button cssClass='e-info'>Play</ejs-button>
     <h1>About</h1>
-    <p>(Currently unnamed) game works very similarly to the classic Space Invaders. The main objective of the game is to defend your home planet from the oncoming waves of enemy ships. The player can control their ship by using the arrow keys to move, and the space key to shoot. Upon defeating an entire wave of enemy ships, a new wave will spawn, which moves at increasingly faster speeds. The game is endless, and your main goal as the player is to achieve the highest score possible!</p>
+    <p>This is a modern take on the very classic Space Invaders. The main objective of the game is to defend your home planet from the oncoming waves of enemy ships. The player can control their ship by using the arrow keys to move, and the space key to shoot. Upon defeating an entire wave of enemy ships, a new wave will spawn, which moves at increasingly faster speeds. The game is endless, and your main goal as the player is to achieve the highest score possible!</p>
   </div>
 </template>
 
