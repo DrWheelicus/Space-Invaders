@@ -25,6 +25,14 @@
     </div>
 </template>
 
+<style lang="scss">
+.controls {
+  font-family: 'Press Start 2P', cursive;
+  color: white;
+  padding-top: 15rem;
+}
+</style>
+
 <script>
 // import phaser package and image assets
 import Phaser from 'phaser'
