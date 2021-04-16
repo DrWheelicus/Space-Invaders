@@ -3,22 +3,22 @@
       <div ref="game" id="game" class="game">
       </div>
       <div class="controls">
-        <table style="width:25%;margin:auto">
+        <table style="width:40%;margin:auto">
           <tr>
             <th>Action</th>
             <th>Control</th>
           </tr>
           <tr>
             <td>Move Left</td>
-            <td>Left Arrow</td>
+            <td>A, Left Arrow, K</td>
           </tr>
           <tr>
             <td>Move Right</td>
-            <td>Right Arrow</td>
+            <td>D, Right Arrow, ;</td>
           </tr>
           <tr>
             <td>Fire</td>
-            <td>Spacebar</td>
+            <td>Ctrl, Spacebar, Insert</td>
           </tr>
         </table>
       </div>
@@ -73,30 +73,6 @@ class Laser extends Phaser.Physics.Arcade.Sprite {
   }
 }
 
-class Laser2 extends Phaser.Physics.Arcade.Sprite {
-  constructor (scene, x, y) {
-    super(scene, x, y, 'playerLaser')
-  }
-
-  fire2 (x, y) {
-    this.body.reset(x, y)
-
-    this.setActive(true)
-    this.setVisible(true)
-
-    this.setVelocityY(600)
-  }
-
-  preUpdate (time, delta) {
-    super.preUpdate(time, delta)
-
-    if (this.y >= this.scene.sys.canvas.height) {
-      this.setActive(false)
-      this.setVisible(false)
-    }
-  }
-}
-
 // creating a class for the group of player lasers to use
 class PlayerLaserGroup extends Phaser.Physics.Arcade.Group {
   constructor (scene) {
@@ -126,7 +102,7 @@ class Player2LaserGroup extends Phaser.Physics.Arcade.Group {
     super(scene.physics.world, scene)
 
     this.createMultiple({
-      classType: Laser2,
+      classType: Laser,
       frameQuantity: 1, // This variable controls how many lasers the player is able to shoot at a time
       active: false,
       visible: false,
@@ -135,10 +111,33 @@ class Player2LaserGroup extends Phaser.Physics.Arcade.Group {
   }
 
   // called when a laser is to be fired
-  fireLaser2 (x, y) {
+  fireLaser (x, y) {
     const laser = this.getFirstDead(false)
     if (laser) {
-      laser.fire2(x, y)
+      laser.fire(x, y)
+    }
+  }
+}
+
+// creating a class for the group of player lasers to use
+class Player3LaserGroup extends Phaser.Physics.Arcade.Group {
+  constructor (scene) {
+    super(scene.physics.world, scene)
+
+    this.createMultiple({
+      classType: Laser,
+      frameQuantity: 1, // This variable controls how many lasers the player is able to shoot at a time
+      active: false,
+      visible: false,
+      key: 'playerLaser'
+    })
+  }
+
+  // called when a laser is to be fired
+  fireLaser (x, y) {
+    const laser = this.getFirstDead(false)
+    if (laser) {
+      laser.fire(x, y)
     }
   }
 }
@@ -219,7 +218,11 @@ class GameScene extends Phaser.Scene {
   }
 
   shootLaser2 () {
-    this.player2LaserGroup.fireLaser2(this.player2.x, this.player2.y - 20)
+    this.player2LaserGroup.fireLaser(this.player2.x, this.player2.y - 20)
+  }
+
+  shootLaser3 () {
+    this.player3LaserGroup.fireLaser(this.player3.x, this.player3.y - 20)
   }
 
   // called before the game is loaded
@@ -231,6 +234,9 @@ class GameScene extends Phaser.Scene {
     this.load.image('player2', player2Img)
     this.load.image('player2Left', player2LeftImg)
     this.load.image('player2Right', player2RightImg)
+    this.load.image('player3', player2Img)
+    this.load.image('player3Left', player2LeftImg)
+    this.load.image('player3Right', player2RightImg)
     this.load.image('playerLaser', playerLaserImg)
     this.load.image('enemyShip', enemyShipImg)
     this.load.image('background', backgroundImg)
@@ -242,10 +248,27 @@ class GameScene extends Phaser.Scene {
   makePlayer (x, y) {
     // add the image sprite to the player object
     this.player = this.add.sprite(x, y, 'player').setOrigin(0.5, 1)
-    this.player2 = this.add.sprite(x, 50, 'player2').setOrigin(0.5, 1)
+    this.player2 = this.add.sprite(x, y, 'player2').setOrigin(0.5, 1)
+    this.player3 = this.add.sprite(x, y, 'player3').setOrigin(0.5, 1)
 
     // create the death animation for the player
     this.player.anims.create({
+      key: 'explosion',
+      frames: this.anims.generateFrameNumbers('explosionSheet', { frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] }),
+      frameRate: 20,
+      repeat: 0,
+      hideOnComplete: true
+    })
+
+    this.player2.anims.create({
+      key: 'explosion',
+      frames: this.anims.generateFrameNumbers('explosionSheet', { frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] }),
+      frameRate: 20,
+      repeat: 0,
+      hideOnComplete: true
+    })
+
+    this.player3.anims.create({
       key: 'explosion',
       frames: this.anims.generateFrameNumbers('explosionSheet', { frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] }),
       frameRate: 20,
@@ -263,6 +286,11 @@ class GameScene extends Phaser.Scene {
     this.player2.properties.speed = 2.5
     this.player2.properties.laserSpeed = 5
     this.player2.properties.maxLasers = 1
+
+    this.player3.properties = {}
+    this.player3.properties.speed = 2.5
+    this.player3.properties.laserSpeed = 5
+    this.player3.properties.maxLasers = 1
   }
 
   // used whenever an enemy ship is hit by a laser
@@ -284,28 +312,6 @@ class GameScene extends Phaser.Scene {
 
       // set the enemy to be considered dead
       enemy.isDead = true
-    }
-  }
-
-  // used whenever an enemy ship is hit by a laser
-  playerHit (laser, player) {
-    // if the enemy that is hit is not already dead (ie. not playing it's death animation or set to be inactive)
-    if (!player.isDead) {
-      // play the death animation
-      player.deathAnimation()
-
-      // increase the score by 10
-      this.score += 10
-      this.scoreText.setText('Score: ' + this.score)
-
-      // reset the laser
-      laser.setVelocityY(0)
-      laser.body.reset(0, 0)
-      laser.setActive(false)
-      laser.setVisible(false)
-
-      // set the enemy to be considered dead
-      player.isDead = true
     }
   }
 
@@ -335,6 +341,7 @@ class GameScene extends Phaser.Scene {
     // make a laser group
     this.playerLaserGroup = new PlayerLaserGroup(this)
     this.player2LaserGroup = new Player2LaserGroup(this)
+    this.player3LaserGroup = new Player3LaserGroup(this)
 
     // make an enemy group
     this.enemyShipGroup = new EnemyShipGroup(this, this.enemySpawnX, this.enemySpawnY)
@@ -345,18 +352,28 @@ class GameScene extends Phaser.Scene {
     // set the player scale to an appropriate size
     this.player.scale = 0.6
     this.player2.scale = 0.6
+    this.player3.scale = 0.6
 
     // set the keys the appropriate keycodes
-    this.leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
-    this.rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
-    this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-    this.ctrl = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.CTRL)
+    // player 1
+    this.P1L = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
+    this.P1R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
+    this.P1F = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.INSERT)
+
+    // player 2
+    this.P2L = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+    this.P2R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+    this.P2F = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.CTRL)
+
+    // player 3
+    this.P3L = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K)
+    this.P3R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SEMICOLON)
+    this.P3F = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
 
     // add overlap (coillision) detection between sprites
     this.physics.add.overlap(this.playerLaserGroup, this.enemyShipGroup, this.enemyHit, null, this)
-    this.physics.add.overlap(this.playerLaserGroup, this.player2, this.enemyHit, null, this)
-
-    this.physics.add.overlap(this.player2LaserGroup, this.player, this.playerHit, null, this)
+    this.physics.add.overlap(this.player2LaserGroup, this.enemyShipGroup, this.enemyHit, null, this)
+    this.physics.add.overlap(this.player3LaserGroup, this.enemyShipGroup, this.enemyHit, null, this)
 
     // create the background for the game over screen
     this.gameOverBg = this.add.image(400, 300, 'gameOver')
@@ -380,12 +397,12 @@ class GameScene extends Phaser.Scene {
     *   Player Movement
     */
     // if the user is pressing the 'right' key and the player is within the screen
-    if (this.rightKey.isDown && this.player.x < this.sys.canvas.width - this.player.displayWidth * this.player.originX && !this.playerIsDead) {
+    if (this.P1R.isDown && this.player.x < this.sys.canvas.width - this.player.displayWidth * this.player.originX && !this.playerIsDead) {
       // move the player to the right and change the sprite
       this.player.x += this.player.properties.speed
       this.player.setTexture('playerRight')
     // if the user is pressing the 'left' key and the player is within the screen
-    } else if (this.leftKey.isDown && this.player.x > 0 + this.player.displayWidth * this.player.originX && !this.playerIsDead) {
+    } else if (this.P1L.isDown && this.player.x > 0 + this.player.displayWidth * this.player.originX && !this.playerIsDead) {
       // move the player to the left and change the sprite
       this.player.x -= this.player.properties.speed
       this.player.setTexture('playerLeft')
@@ -397,12 +414,12 @@ class GameScene extends Phaser.Scene {
     *   Player2 Movement
     */
     // if the user is pressing the 'right' key and the player is within the screen
-    if (this.rightKey.isDown && this.player2.x < this.sys.canvas.width - this.player2.displayWidth * this.player2.originX && !this.playerIsDead) {
+    if (this.P2R.isDown && this.player2.x < this.sys.canvas.width - this.player2.displayWidth * this.player2.originX && !this.playerIsDead) {
       // move the player to the right and change the sprite
       this.player2.x += this.player2.properties.speed
       this.player2.setTexture('player2Right')
       // if the user is pressing the 'left' key and the player is within the screen
-    } else if (this.leftKey.isDown && this.player2.x > 0 + this.player2.displayWidth * this.player2.originX && !this.playerIsDead) {
+    } else if (this.P2L.isDown && this.player2.x > 0 + this.player2.displayWidth * this.player2.originX && !this.playerIsDead) {
       // move the player to the left and change the sprite
       this.player2.x -= this.player2.properties.speed
       this.player2.setTexture('player2Left')
@@ -411,17 +428,35 @@ class GameScene extends Phaser.Scene {
     }
 
     /*
-    *   Player Firing
-    */
-    if (Phaser.Input.Keyboard.JustDown(this.spacebar) && !this.playerIsDead) {
-      this.shootLaser()
+   *   Player3 Movement
+   */
+    // if the user is pressing the 'right' key and the player is within the screen
+    if (this.P3R.isDown && this.player3.x < this.sys.canvas.width - this.player3.displayWidth * this.player3.originX && !this.playerIsDead) {
+      // move the player to the right and change the sprite
+      this.player3.x += this.player3.properties.speed
+      this.player3.setTexture('player3Right')
+      // if the user is pressing the 'left' key and the player is within the screen
+    } else if (this.P3L.isDown && this.player3.x > 0 + this.player3.displayWidth * this.player3.originX && !this.playerIsDead) {
+      // move the player to the left and change the sprite
+      this.player3.x -= this.player3.properties.speed
+      this.player3.setTexture('player3Left')
+    } else if (!this.playerIsDead) {
+      this.player3.setTexture('player3')
     }
 
     /*
     *   Player Firing
     */
-    if (Phaser.Input.Keyboard.JustDown(this.ctrl) && !this.playerIsDead) {
+    if (Phaser.Input.Keyboard.JustDown(this.P1F) && !this.playerIsDead) {
+      this.shootLaser()
+    }
+
+    if (Phaser.Input.Keyboard.JustDown(this.P2F) && !this.player2IsDead) {
       this.shootLaser2()
+    }
+
+    if (Phaser.Input.Keyboard.JustDown(this.P3F) && !this.player3IsDead) {
+      this.shootLaser3()
     }
 
     /*
@@ -454,6 +489,8 @@ class GameScene extends Phaser.Scene {
         this.playerDeathIsPlaying = true
         this.playerIsDead = true
         this.player.play('explosion')
+        this.player2.play('explosion')
+        this.player3.play('explosion')
       }
     }
 
