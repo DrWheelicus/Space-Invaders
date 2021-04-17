@@ -3,14 +3,14 @@
     <particles-bg color="#FFFFFF" num=50 type="cobweb" :bg=true />
     <kinesis-container>
       <kinesis-element :strength="10" type="depth">
-        <img
-          alt="Game Logo"
-          src="../assets/logo.png"
-          ref="/src/views/Home.vue"
-        />
+        <img alt="Game Logo"
+             src="../assets/logo.png"
+             ref="/src/views/Home.vue" />
       </kinesis-element>
     </kinesis-container>
-    <ejs-button cssClass='e-info' v-on:click.native='btnPlay'><font-awesome-icon icon="gamepad" />[Play]</ejs-button>
+    <ejs-button cssClass='e-info' v-on:click.native='btnPlay1'><font-awesome-icon icon="gamepad" />[1 Player]</ejs-button>
+    <ejs-button cssClass='e-info' v-on:click.native='btnPlay2'><font-awesome-icon icon="gamepad" />[2 Players]</ejs-button>
+    <ejs-button cssClass='e-info' v-on:click.native='btnPlay3'><font-awesome-icon icon="gamepad" />[3 Players]</ejs-button>
     <h1>About</h1>
     <p>This is a modern take on the very classic Space Invaders. The main objective of the game is to defend your home planet from the oncoming waves of enemy ships. The player can control their ship by using the arrow keys to move, and the space key to shoot. Upon defeating an entire wave of enemy ships, a new wave will spawn, which moves at increasingly faster speeds. The game is endless, and your main goal as the player is to achieve the highest score possible!</p>
   </div>
@@ -22,21 +22,17 @@
   color: white;
   padding-top: 15rem;
 }
-
 body {
   background-color: #050507;
 }
-
 p {
   margin-left: 10rem;
   margin-right: 10rem;
 }
-
 .e-btn {
   margin: 25px 5px 20px 20px;
   font-family: 'Press Start 2P', cursive;
 }
-
 </style>
 
 <script lang="ts">
@@ -46,8 +42,16 @@ import { ButtonPlugin } from '@syncfusion/ej2-vue-buttons'
 Vue.use(ButtonPlugin)
 
 export default class Home extends Vue {
-  btnPlay () {
+  btnPlay1 () {
     super.$router.push('game')
+  }
+
+  btnPlay2 () {
+    super.$router.push({ path: 'game', query: { numPlayers: '2' } })
+  }
+
+  btnPlay3 () {
+    super.$router.push({ path: 'game', query: { numPlayers: '3' } })
   }
 }
 </script>
