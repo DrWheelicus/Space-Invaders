@@ -18,7 +18,7 @@
           </tr>
           <tr>
             <td>Fire</td>
-            <td>Ctrl, Spacebar, Insert</td>
+            <td>Ctrl, Insert, Spacebar </td>
           </tr>
         </table>
       </div>
