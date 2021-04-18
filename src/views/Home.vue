@@ -48,6 +48,7 @@ export default class Home extends Vue {
 
   btnPlay2 () {
     super.$router.push({ path: 'game', query: { numPlayers: '2' } })
+    //  super.$router.push({ path: 'game', name: 'game', params: { numPlayers: '2' } })
   }
 
   btnPlay3 () {

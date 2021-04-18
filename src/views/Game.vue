@@ -48,6 +48,8 @@ import backgroundImg from '../assets/sprites/starBackground.png'
 import explosionSheet from '../assets/sprites/explosion.png'
 import gameOverBackground from '../assets/sprites/gameOver.png'
 
+//  const numPlayers = this.$route.query.numPlayers
+
 // creating a class for the laser to use
 class Laser extends Phaser.Physics.Arcade.Sprite {
   constructor (scene, x, y) {
@@ -354,6 +356,11 @@ class GameScene extends Phaser.Scene {
     this.player2.scale = 0.6
     this.player3.scale = 0.6
 
+    if (this.$route.query.numPlayers) {
+      this.player.scale = 4
+      //  console.log('e')
+    }
+
     // set the keys the appropriate keycodes
     // player 1
     this.P1L = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
@@ -538,6 +545,8 @@ class GameScene extends Phaser.Scene {
 
 // export the data
 export default {
+  name: 'game',
+  props: ['numPlayers'],
   data () {
     return {
       game: null
