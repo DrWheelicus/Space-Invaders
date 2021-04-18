@@ -1,7 +1,8 @@
 <template>
     <div class="scores">
-        <h1>High Scores</h1>
-        <ScoreTable :scores="scores" />
+        <h4 v-if="loading" variant="info">Loading...</h4>
+        <h4 v-if="scores.length == 0">No scores have been submitted yet. Be the first to do it!</h4>
+        <ScoreTable v-else :scores="scores" />
     </div>
 </template>
 
