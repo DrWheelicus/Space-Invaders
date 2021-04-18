@@ -1,12 +1,13 @@
-import Vue from 'vue'
 import axios from 'axios'
 
+// create the axios client
 const client = axios.create({
   baseURL: 'http://localhost:8081/',
   json: true
 })
 
 export default {
+  // create the execute function
   async execute (method, resource, data) {
     return client({
       method,
@@ -16,6 +17,7 @@ export default {
       return req.data
     })
   },
+  // define all of the CRUD operations
   getHighscores () {
     return this.execute('get', '/highscores')
   },

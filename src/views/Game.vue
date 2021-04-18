@@ -2,10 +2,29 @@
     <div>
       <div ref="game" id="game" class="game">
       </div>
-      <div class="submitScore" id="scoreForm">
+      <div class="scoreForm" id="scoreForm">
+        <h4>Submit your score!</h4>
         <form @submit.prevent="saveScore">
-          <input type="text" v-model="model.name">
-          <input id="scoreInput" type="text" v-model="model.score" readonly>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <label for="name">Name:</label>
+                </td>
+                <td>
+                  <input type="text" v-model="model.name" id="name">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="scoreInput">Final Score:</label>
+                </td>
+                <td>
+                  <input id="scoreInput" type="text" v-model="model.score" readonly>
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <div>
             <input type="submit" variant="success">
           </div>
@@ -39,6 +58,17 @@
   font-family: 'Press Start 2P', cursive;
   color: white;
   padding-top: 15rem;
+}
+
+.scoreForm {
+  font-family: 'Press Start 2P', cursive;
+  color: white;
+  padding-top: 0.5rem;
+}
+
+.scoreForm table {
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
 
