@@ -2,6 +2,34 @@
     <div>
       <div ref="game" id="game" class="game">
       </div>
+      <div class="scoreForm" id="scoreForm">
+        <h4>Submit your score!</h4>
+        <form @submit.prevent="saveScore">
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <label for="name">Name:</label>
+                </td>
+                <td>
+                  <input type="text" v-model="model.name" id="name">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="scoreInput">Final Score:</label>
+                </td>
+                <td>
+                  <input id="scoreInput" type="text" v-model="model.score" readonly>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div>
+            <input type="submit" variant="success">
+          </div>
+        </form>
+      </div>
       <div class="controls">
         <table style="width:40%;margin:auto">
           <tr>
@@ -31,9 +59,21 @@
   color: white;
   padding-top: 15rem;
 }
+
+.scoreForm {
+  font-family: 'Press Start 2P', cursive;
+  color: white;
+  padding-top: 0.5rem;
+}
+
+.scoreForm table {
+  margin-left: auto;
+  margin-right: auto;
+}
 </style>
 
 <script>
+import api from '@/api'
 // import phaser package and image assets
 import Phaser from 'phaser'
 import playerImg from '../assets/sprites/player.png'
@@ -212,6 +252,21 @@ class GameScene extends Phaser.Scene {
 
     this.finalScoreText.text = 'Final Score: ' + this.score
     this.finalScoreText.visible = true
+
+    this.P1L.enabled = false
+    this.P1R.enabled = false
+    this.P1F.enabled = false
+    this.P2L.enabled = false
+    this.P2R.enabled = false
+    this.P2F.enabled = false
+    this.P3L.enabled = false
+    this.P3R.enabled = false
+    this.P3F.enabled = false
+
+    this.input.keyboard.disableGlobalCapture()
+
+    document.getElementById('scoreForm').style.display = 'block'
+    document.getElementById('scoreInput').value = this.score
   }
 
   // used when a laser is to be fired
@@ -630,10 +685,33 @@ class GameScene extends Phaser.Scene {
 export default {
   data () {
     return {
-      game: null
+      game: null,
+      model: {}
+    }
+  },
+  methods: {
+    async saveScore (e) {
+      e.preventDefault()
+      this.model.score = document.getElementById('scoreInput').value
+
+      await api.createHighscore(this.model)
+      console.log('Score submitted')
+      this.model = {}
+      this.$router.push('scores')
     }
   },
   mounted () {
+    if (localStorage.getItem('reloaded')) {
+      localStorage.removeItem('reloaded')
+    } else {
+      localStorage.setItem('reloaded', '1')
+      location.reload()
+    }
+
+    window.onload = function () {
+      document.getElementById('scoreForm').style.display = 'none'
+    }
+
     // create the config for the game
     const config = {
       parent: this.$refs.game,
