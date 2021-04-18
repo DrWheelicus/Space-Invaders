@@ -14,7 +14,8 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    props: true
   },
   {
     path: '/scores',
@@ -24,7 +25,8 @@ const routes: Array<RouteConfig> = [
   {
     path: '/game',
     name: 'Game',
-    component: Game
+    component: Game,
+    props: true
   }
 ]
 

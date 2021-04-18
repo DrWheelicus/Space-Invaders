@@ -40,7 +40,7 @@ export default {
           }
         },
         {
-          href: '/game',
+          href: '/game?numPlayers=1',
           title: 'Play Game',
           icon: {
             element: 'font-awesome-icon',

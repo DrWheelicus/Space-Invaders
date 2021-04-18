@@ -43,11 +43,12 @@ Vue.use(ButtonPlugin)
 
 export default class Home extends Vue {
   btnPlay1 () {
-    super.$router.push('game')
+    super.$router.push({ path: 'game', query: { numPlayers: '1' } })
   }
 
   btnPlay2 () {
     super.$router.push({ path: 'game', query: { numPlayers: '2' } })
+    //  super.$router.push({ path: 'game', name: 'game', params: { numPlayers: '2' } })
   }
 
   btnPlay3 () {

@@ -46,7 +46,7 @@
           </tr>
           <tr>
             <td>Fire</td>
-            <td>Ctrl, Spacebar, Insert</td>
+            <td>Ctrl, Insert, Spacebar </td>
           </tr>
         </table>
       </div>
@@ -87,6 +87,8 @@ import enemyShipImg from '../assets/sprites/enemyShip.png'
 import backgroundImg from '../assets/sprites/starBackground.png'
 import explosionSheet from '../assets/sprites/explosion.png'
 import gameOverBackground from '../assets/sprites/gameOver.png'
+
+//  const numPlayers = this.$route.query.numPlayers
 
 // creating a class for the laser to use
 class Laser extends Phaser.Physics.Arcade.Sprite {
@@ -301,10 +303,22 @@ class GameScene extends Phaser.Scene {
 
   // used to make the playable character
   makePlayer (x, y) {
+    const url = new URLSearchParams(window.location.search)
+    const param = url.get('numPlayers')
     // add the image sprite to the player object
-    this.player = this.add.sprite(x, y, 'player').setOrigin(0.5, 1)
-    this.player2 = this.add.sprite(x, y, 'player2').setOrigin(0.5, 1)
-    this.player3 = this.add.sprite(x, y, 'player3').setOrigin(0.5, 1)
+    if (param === '1') {
+      this.player = this.add.sprite(x, y, 'player').setOrigin(0.5, 1)
+      this.player2 = this.add.sprite(x * 3, y, 'player2').setOrigin(0.5, 1)
+      this.player3 = this.add.sprite(x * 3, y, 'player3').setOrigin(0.5, 1)
+    } else if (param === '2') {
+      this.player = this.add.sprite(x, y, 'player').setOrigin(0.5, 1)
+      this.player2 = this.add.sprite(x, y, 'player2').setOrigin(0.5, 1)
+      this.player3 = this.add.sprite(x * 3, y, 'player3').setOrigin(0.5, 1)
+    } else if (param === '3') {
+      this.player = this.add.sprite(x, y, 'player').setOrigin(0.5, 1)
+      this.player2 = this.add.sprite(x, y, 'player2').setOrigin(0.5, 1)
+      this.player3 = this.add.sprite(x, y, 'player3').setOrigin(0.5, 1)
+    }
 
     // create the death animation for the player
     this.player.anims.create({
@@ -372,6 +386,8 @@ class GameScene extends Phaser.Scene {
 
   // used to create the game itself
   create () {
+    const url = new URLSearchParams(window.location.search)
+    const param = url.get('numPlayers')
     // variables
     this.enemyMovingRight = true // is the enemy moving right
     this.enemyMovingDown = false // is the enemy set to move down
@@ -448,70 +464,144 @@ class GameScene extends Phaser.Scene {
 
   // update() is called once every frame
   update () {
-    /*
-    *   Player Movement
+    const url = new URLSearchParams(window.location.search)
+    const param = url.get('numPlayers')
+
+    if (param === '1') {
+      /*
+    *   Player1 Movement
     */
-    // if the user is pressing the 'right' key and the player is within the screen
-    if (this.P1R.isDown && this.player.x < this.sys.canvas.width - this.player.displayWidth * this.player.originX && !this.playerIsDead) {
-      // move the player to the right and change the sprite
-      this.player.x += this.player.properties.speed
-      this.player.setTexture('playerRight')
-    // if the user is pressing the 'left' key and the player is within the screen
-    } else if (this.P1L.isDown && this.player.x > 0 + this.player.displayWidth * this.player.originX && !this.playerIsDead) {
-      // move the player to the left and change the sprite
-      this.player.x -= this.player.properties.speed
-      this.player.setTexture('playerLeft')
-    } else if (!this.playerIsDead) {
-      this.player.setTexture('player')
-    }
+      // if the user is pressing the 'right' key and the player is within the screen
+      if (this.P1R.isDown && this.player.x < this.sys.canvas.width - this.player.displayWidth * this.player.originX && !this.playerIsDead) {
+        // move the player to the right and change the sprite
+        this.player.x += this.player.properties.speed
+        this.player.setTexture('playerRight')
+        // if the user is pressing the 'left' key and the player is within the screen
+      } else if (this.P1L.isDown && this.player.x > 0 + this.player.displayWidth * this.player.originX && !this.playerIsDead) {
+        // move the player to the left and change the sprite
+        this.player.x -= this.player.properties.speed
+        this.player.setTexture('playerLeft')
+      } else if (!this.playerIsDead) {
+        this.player.setTexture('player')
+      }
 
-    /*
-    *   Player2 Movement
-    */
-    // if the user is pressing the 'right' key and the player is within the screen
-    if (this.P2R.isDown && this.player2.x < this.sys.canvas.width - this.player2.displayWidth * this.player2.originX && !this.playerIsDead) {
-      // move the player to the right and change the sprite
-      this.player2.x += this.player2.properties.speed
-      this.player2.setTexture('player2Right')
-      // if the user is pressing the 'left' key and the player is within the screen
-    } else if (this.P2L.isDown && this.player2.x > 0 + this.player2.displayWidth * this.player2.originX && !this.playerIsDead) {
-      // move the player to the left and change the sprite
-      this.player2.x -= this.player2.properties.speed
-      this.player2.setTexture('player2Left')
-    } else if (!this.playerIsDead) {
-      this.player2.setTexture('player2')
-    }
-
-    /*
-   *   Player3 Movement
-   */
-    // if the user is pressing the 'right' key and the player is within the screen
-    if (this.P3R.isDown && this.player3.x < this.sys.canvas.width - this.player3.displayWidth * this.player3.originX && !this.playerIsDead) {
-      // move the player to the right and change the sprite
-      this.player3.x += this.player3.properties.speed
-      this.player3.setTexture('player3Right')
-      // if the user is pressing the 'left' key and the player is within the screen
-    } else if (this.P3L.isDown && this.player3.x > 0 + this.player3.displayWidth * this.player3.originX && !this.playerIsDead) {
-      // move the player to the left and change the sprite
-      this.player3.x -= this.player3.properties.speed
-      this.player3.setTexture('player3Left')
-    } else if (!this.playerIsDead) {
-      this.player3.setTexture('player3')
-    }
-
-    /*
+      /*
     *   Player Firing
     */
-    if (Phaser.Input.Keyboard.JustDown(this.P1F) && !this.playerIsDead) {
-      this.shootLaser()
-    }
+      if (Phaser.Input.Keyboard.JustDown(this.P1F) && !this.playerIsDead) {
+        this.shootLaser()
+      }
+    } else if (param === '2') {
+      /*
+    *   Player1 Movement
+    */
+      // if the user is pressing the 'right' key and the player is within the screen
+      if (this.P1R.isDown && this.player.x < this.sys.canvas.width - this.player.displayWidth * this.player.originX && !this.playerIsDead) {
+        // move the player to the right and change the sprite
+        this.player.x += this.player.properties.speed
+        this.player.setTexture('playerRight')
+        // if the user is pressing the 'left' key and the player is within the screen
+      } else if (this.P1L.isDown && this.player.x > 0 + this.player.displayWidth * this.player.originX && !this.playerIsDead) {
+        // move the player to the left and change the sprite
+        this.player.x -= this.player.properties.speed
+        this.player.setTexture('playerLeft')
+      } else if (!this.playerIsDead) {
+        this.player.setTexture('player')
+      }
 
-    if (Phaser.Input.Keyboard.JustDown(this.P2F) && !this.player2IsDead) {
-      this.shootLaser2()
-    }
+      /*
+      *   Player2 Movement
+      */
+      // if the user is pressing the 'right' key and the player is within the screen
+      if (this.P2R.isDown && this.player2.x < this.sys.canvas.width - this.player2.displayWidth * this.player2.originX && !this.playerIsDead) {
+        // move the player to the right and change the sprite
+        this.player2.x += this.player2.properties.speed
+        this.player2.setTexture('player2Right')
+        // if the user is pressing the 'left' key and the player is within the screen
+      } else if (this.P2L.isDown && this.player2.x > 0 + this.player2.displayWidth * this.player2.originX && !this.playerIsDead) {
+        // move the player to the left and change the sprite
+        this.player2.x -= this.player2.properties.speed
+        this.player2.setTexture('player2Left')
+      } else if (!this.playerIsDead) {
+        this.player2.setTexture('player2')
+      }
 
-    if (Phaser.Input.Keyboard.JustDown(this.P3F) && !this.player3IsDead) {
-      this.shootLaser3()
+      /*
+    *   Player Firing
+    */
+      if (Phaser.Input.Keyboard.JustDown(this.P1F) && !this.playerIsDead) {
+        this.shootLaser()
+      }
+
+      if (Phaser.Input.Keyboard.JustDown(this.P2F) && !this.player2IsDead) {
+        this.shootLaser2()
+      }
+    } else if (param === '3') {
+      /*
+    *   Player1 Movement
+    */
+      // if the user is pressing the 'right' key and the player is within the screen
+      if (this.P1R.isDown && this.player.x < this.sys.canvas.width - this.player.displayWidth * this.player.originX && !this.playerIsDead) {
+        // move the player to the right and change the sprite
+        this.player.x += this.player.properties.speed
+        this.player.setTexture('playerRight')
+        // if the user is pressing the 'left' key and the player is within the screen
+      } else if (this.P1L.isDown && this.player.x > 0 + this.player.displayWidth * this.player.originX && !this.playerIsDead) {
+        // move the player to the left and change the sprite
+        this.player.x -= this.player.properties.speed
+        this.player.setTexture('playerLeft')
+      } else if (!this.playerIsDead) {
+        this.player.setTexture('player')
+      }
+
+      /*
+      *   Player2 Movement
+      */
+      // if the user is pressing the 'right' key and the player is within the screen
+      if (this.P2R.isDown && this.player2.x < this.sys.canvas.width - this.player2.displayWidth * this.player2.originX && !this.playerIsDead) {
+        // move the player to the right and change the sprite
+        this.player2.x += this.player2.properties.speed
+        this.player2.setTexture('player2Right')
+        // if the user is pressing the 'left' key and the player is within the screen
+      } else if (this.P2L.isDown && this.player2.x > 0 + this.player2.displayWidth * this.player2.originX && !this.playerIsDead) {
+        // move the player to the left and change the sprite
+        this.player2.x -= this.player2.properties.speed
+        this.player2.setTexture('player2Left')
+      } else if (!this.playerIsDead) {
+        this.player2.setTexture('player2')
+      }
+
+      /*
+     *   Player3 Movement
+     */
+      // if the user is pressing the 'right' key and the player is within the screen
+      if (this.P3R.isDown && this.player3.x < this.sys.canvas.width - this.player3.displayWidth * this.player3.originX && !this.playerIsDead) {
+        // move the player to the right and change the sprite
+        this.player3.x += this.player3.properties.speed
+        this.player3.setTexture('player3Right')
+        // if the user is pressing the 'left' key and the player is within the screen
+      } else if (this.P3L.isDown && this.player3.x > 0 + this.player3.displayWidth * this.player3.originX && !this.playerIsDead) {
+        // move the player to the left and change the sprite
+        this.player3.x -= this.player3.properties.speed
+        this.player3.setTexture('player3Left')
+      } else if (!this.playerIsDead) {
+        this.player3.setTexture('player3')
+      }
+
+      /*
+    *   Player Firing
+    */
+      if (Phaser.Input.Keyboard.JustDown(this.P1F) && !this.playerIsDead) {
+        this.shootLaser()
+      }
+
+      if (Phaser.Input.Keyboard.JustDown(this.P2F) && !this.player2IsDead) {
+        this.shootLaser2()
+      }
+
+      if (Phaser.Input.Keyboard.JustDown(this.P3F) && !this.player3IsDead) {
+        this.shootLaser3()
+      }
     }
 
     /*
