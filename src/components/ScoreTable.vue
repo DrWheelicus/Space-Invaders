@@ -6,8 +6,8 @@
         <img id="player3" v-on:click="playanimation3()" src="../assets/sprites/player.png">
         <table id="highscoretable">
             <tr v-bind:key="score.id" v-for="score in scores">
-                <td>{{score.name}}</td>
-                <td>{{score.score}}</td>
+                <td><p>{{score.name}}</p></td>
+                <td><p>{{score.score}}</p></td>
             </tr>
         </table>
     </div>
@@ -100,8 +100,6 @@ export default {
 
 #highscoretable td {
     font-size: 200%;
-    padding-left: 50px;
-    padding-right: 50px;
     padding-top:1rem;
 }
 
