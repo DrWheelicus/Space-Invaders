@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <particles-bg color="#FFFFFF" num=50 type="cobweb" :bg=true />
     <sidebar-menu :menu="menu" :collapsed="collapsed">
       <span slot="toggle-icon"><font-awesome-icon icon="arrows-alt-h" /></span>
       <span slot="dropdown-icon"><font-awesome-icon icon="sort-down" /></span>
