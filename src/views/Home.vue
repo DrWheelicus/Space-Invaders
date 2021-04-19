@@ -20,7 +20,7 @@
 .home {
   font-family: 'Press Start 2P', cursive;
   color: white;
-  padding-top: 15rem;
+  padding-top: 10rem;
 }
 body {
   background-color: #050507;

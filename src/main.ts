@@ -1,24 +1,44 @@
 /* eslint-disable */
 // @ts-ignore
-import { defineCustomElements as defineIonPhaser } from '@ion-phaser/core/loader'
+import { defineCustomElements as defineIonPhaser } from "@ion-phaser/core/loader";
 // @ts-ignore
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
 // @ts-ignore
-import VueKinesis from 'vue-kinesis';
-import VueSidebarMenu from 'vue-sidebar-menu'
-import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlayCircle, faArrowsAltH, faSortDown, faHome, faTable, faGamepad } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import VueKinesis from "vue-kinesis";
+import VueSidebarMenu from "vue-sidebar-menu";
+import "vue-sidebar-menu/dist/vue-sidebar-menu.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faPlayCircle,
+  faArrowsAltH,
+  faSortDown,
+  faHome,
+  faTable,
+  faGamepad,
+  faUser,
+  faUserFriends,
+  faUsers
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 // @ts-ignore
 import VueParticlesBg from "particles-bg-vue";
-import { ButtonPlugin } from '@syncfusion/ej2-vue-buttons';
-import { enableRipple } from '@syncfusion/ej2-base';
+import { ButtonPlugin } from "@syncfusion/ej2-vue-buttons";
+import { enableRipple } from "@syncfusion/ej2-base";
 /* eslint-enable */
 
-library.add(faPlayCircle, faArrowsAltH, faSortDown, faHome, faTable, faGamepad)
+library.add(
+  faPlayCircle,
+  faArrowsAltH,
+  faSortDown,
+  faHome,
+  faTable,
+  faGamepad,
+  faUser,
+  faUserFriends,
+  faUsers
+)
 
 Vue.use(VueKinesis)
 Vue.use(VueSidebarMenu)

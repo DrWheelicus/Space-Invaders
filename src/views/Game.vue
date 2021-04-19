@@ -387,6 +387,7 @@ class GameScene extends Phaser.Scene {
   // used to create the game itself
   create () {
     const url = new URLSearchParams(window.location.search)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const param = url.get('numPlayers')
     // variables
     this.enemyMovingRight = true // is the enemy moving right
