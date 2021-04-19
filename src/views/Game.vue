@@ -46,7 +46,7 @@
           </tr>
           <tr>
             <td>Fire</td>
-            <td>Ctrl, Insert, Spacebar </td>
+            <td>Forward Slash, Insert, Spacebar </td>
           </tr>
         </table>
       </div>
@@ -435,7 +435,7 @@ class GameScene extends Phaser.Scene {
     // player 2
     this.P2L = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
     this.P2R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-    this.P2F = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.CTRL)
+    this.P2F = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FORWARD_SLASH)
 
     // player 3
     this.P3L = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K)
