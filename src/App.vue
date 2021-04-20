@@ -26,9 +26,11 @@
 
 <script>
 export default {
+  // title of site
   title: 'Space Invaders',
   data () {
     return {
+      // sidebar props:
       menu: [
         {
           href: '/',
@@ -50,6 +52,7 @@ export default {
               icon: 'play-circle'
             }
           },
+          // dropdown menu
           child: [
             {
               href: '/game?numPlayers=1',

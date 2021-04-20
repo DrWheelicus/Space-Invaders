@@ -30,6 +30,7 @@ import { enableRipple } from "@syncfusion/ej2-base";
 import titleMixin from './mixins/titleMixin'
 /* eslint-enable */
 
+// add all icons to the app
 library.add(
   faPlayCircle,
   faArrowsAltH,
@@ -42,6 +43,7 @@ library.add(
   faUsers
 )
 
+// integrate all plugins
 Vue.use(VueKinesis)
 Vue.use(VueSidebarMenu)
 Vue.use(VueParticlesBg)

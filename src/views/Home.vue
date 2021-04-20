@@ -41,15 +41,18 @@ import { ButtonPlugin } from '@syncfusion/ej2-vue-buttons'
 Vue.use(ButtonPlugin)
 
 export default class Home extends Vue {
+  // 1 player button
   btnPlay1 () {
     super.$router.push({ path: 'game', query: { numPlayers: '1' } })
   }
 
+  // 2 players button
   btnPlay2 () {
     super.$router.push({ path: 'game', query: { numPlayers: '2' } })
     //  super.$router.push({ path: 'game', name: 'game', params: { numPlayers: '2' } })
   }
 
+  // 3 players button
   btnPlay3 () {
     super.$router.push({ path: 'game', query: { numPlayers: '3' } })
   }
