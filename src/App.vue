@@ -26,6 +26,7 @@
 
 <script>
 export default {
+  title: 'Space Invaders',
   data () {
     return {
       menu: [
